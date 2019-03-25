@@ -1,0 +1,79 @@
+slides > slide {
+  font-family: "Source Sans Pro", arial, sans-serif;
+}
+
+.title-slide hgroup h1 {
+  font-size: 55px;
+  letter-spacing: -1px;
+}
+
+.title-slide hgroup p {
+  font-size: 24px;
+}
+
+slides > slide > hgroup + article {
+    margin-top: 20px;
+}
+
+.small {
+  font-size: 80%;
+}
+
+.moresmall {
+  font-size: 60%;
+}
+
+/*
+ul {
+	position: relative;
+	list-style: none;
+}
+ul li:before {
+	content: "–";
+	position: absolute;
+	left: 0;
+	font-weight: 650;
+}
+*/
+
+.headshot {
+  height: 110px;
+}
+
+.logo {
+  height: 200px;
+}
+
+figcaption {
+  font-size: 80%;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+.list-inline {
+  padding-left: 0;
+  margin-left: -5px;
+  list-style: none;
+}
+.list-inline > li {
+  display: inline-block;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.text-center {
+  text-align: center;
+}
+
+.pagedtable-footer {
+  font-size: 50%;
+}
+
+.prettyprint {
+  width: 108%;
+}
+
+a {
+  border-bottom: none;
+}
