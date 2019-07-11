@@ -1,0 +1,282 @@
+---
+title: "Large-scale data tools in child language acquisition"
+output: 
+  html_notebook: 
+    code_folding: none
+    highlight: tango
+    theme: spacelab
+    toc: yes
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggthemes)
+```
+
+-------------------------------------------------------------------------------
+
+## `wordbankr`
+
+```{r}
+library(wordbankr)
+help(package = "wordbankr")
+ls("package:wordbankr")
+```
+
+### Instruments
+```{r}
+# get all instruments
+# *
+```
+
+### Sources
+```{r}
+# get all sources
+# *
+
+# get sources for a language
+# *
+```
+
+### Administrations
+```{r}
+# get administrations for a language and form
+# *
+
+# how many unique administrations?
+# *
+
+# how many administration for each age?
+# *
+
+# get administrations for language
+# *
+
+# get administrations for form
+# *
+
+# get all administrations
+# *
+
+# how many total administration?
+# *
+
+# how many administration for each instrument?
+# *
+```
+
+### Items
+```{r}
+# get items for a language and form
+# *
+
+# what types of items are there?
+# *
+
+# what categories of items are there?
+# *
+
+# what lexical categories of items are there?
+# *
+
+# get all items
+# *
+
+# how many items for each instrument?
+# *
+```
+
+### Data
+```{r}
+# from an instrument's items, pull out item ids for specific words
+# get data for those words
+# *
+
+# get data for those words with administration info and item info
+# *
+
+# subset an instrument's administrations by age
+# subset that instrument's items by specific words
+# get data for those subsets
+# *
+```
+
+### Exercises
+
+1. Compute and plot median productive vocabulary size (as proportion of total words) over age in each language. Limit to WS data for children 16-30 months old.
+
+```{r}
+# *
+```
+
+2. For English WS data, compute and plot the proportion of children that produce each word in the "toys" category at each age. Now do the same thing but separately for girls and boys.
+
+```{r}
+# *
+```
+
+### AoA
+```{r}
+# fit AoA estimates to the data for some words
+# *
+
+# fit AoA estimates to the same data using a different fitting method and proportion cutoff
+# *
+```
+
+### Unilemmas
+```{r}
+# get all unilemmas
+# *
+
+# get cross-linguistic data for a given unilemma
+# *
+```
+
+
+-------------------------------------------------------------------------------
+
+## `childesr`
+
+```{r}
+library(childesr)
+help(package = "childesr")
+ls("package:childesr")
+```
+
+### Collections, corpora
+```{r}
+# get all collections
+# *
+
+# get all corpora
+# *
+```
+
+### Transcripts
+```{r}
+# get transcripts by collection
+# *
+
+# get transcripts by corpus
+# *
+```
+
+### Participants
+```{r}
+# get participants by corpus
+# *
+
+# get participants by collection and age range
+# *
+```
+
+### Utterances
+```{r}
+# get utterances by corpus and role
+# *
+
+# get utterances by corpus and excluded role
+# *
+```
+
+### Types
+```{r}
+# get types by corpus and type
+# *
+
+# get types by collection, role, and type
+# *
+```
+
+### Tokens
+```{r}
+# get tokens by corpus, role, and token
+# *
+
+# get tokens by corpus, role, and token, without replacements
+# *
+
+# get tokens by corpus, role, and multiple tokens
+# *
+
+# get tokens by corpus, role, and token with wildcards
+# *
+
+# get tokens by corpus, role, and stem
+# *
+
+# get tokens by corpus, role, and part of speech
+# *
+```
+
+### Speaker statistics
+```{r}
+# get speaker statistics by corpus and role
+# *
+```
+
+### Exercises
+
+1. For each corpus, plot the number of transcripts in it against its mean length in number of tokens spoken by everyone other than the target child.
+
+```{r}
+# *
+```
+
+2. Retrieve and plot the number of times each child in the Brown corpus said each inflection of the verb "go" over age.
+
+```{r}
+# *
+```
+
+
+-------------------------------------------------------------------------------
+
+## Mini-projects!
+
+
+Use data from Wordbank and/or childes-db to explore some question about language learning. Here's a few ideas:
+
+__Wordbank__
+
+- Explore the relationship between vocabulary size and grammar ability (the items of type complexity).
+- Look at the composition of vocabulary -- what proportion of words that children know are which lexical category -- and how it changes over age.
+
+__childes-db__
+
+- Characterize the developmental trajectory of children's lexical diversity (e.g. MTLD) and how it differs by gender.
+- Estimate the frequencies of color terms (or some other interesting set of words) in speech to children over age.
+
+__Both__
+
+- For some set of words, estimate their age of acquisition from Wordbank and frequency in child-directed speech from childes-db and examine the relationship between them.
+- Determine which words are earliest-learned according to CDI data and according to corpus data and compare the two.
+
+
+-------------------------------------------------------------------------------
+
+## Resources
+
+__Wordbank__
+
+- http://wordbank.stanford.edu
+- https://github.com/langcog/wordbankr
+- http://langcog.github.io/wordbankr
+- http://mb-cdi.stanford.edu
+- Citation: Frank, M. C., Braginsky, M., Yurovsky, D., & Marchman, V. A. (2017). Wordbank: An open repository for developmental vocabulary data. Journal of Child Language, 44(3), 677-694.
+
+__childes-db__
+
+- http://childes-db.stanford.edu
+- https://github.com/langcog/childesr
+- https://childes.talkbank.org
+- Citation: Sanchez, A., Meylan, S. C., Braginsky, M., MacDonald, K. E., Yurovsky, D., & Frank, M. C. (2019). childes-db: A flexible and reproducible interface to the Child Language Data Exchange System. Behavior Research Methods, 1-14.
+
+__This workshop__
+
+- https://github.com/mikabr/acq-tools
+- https://mikabr.github.io/acq-tools
+
+__Contact__: mikabr@mit.edu
