@@ -160,9 +160,11 @@ get_instrument_data(language = "English (American)", form = "WS", items = ids,
 
 __Exercises__
 
-1. Compute and plot median productive vocabulary size (as proportion of total words) over age in each language. Limit to WS data for children 16-30 months old.
+1. Compute and plot median productive vocabulary size (as proportion of total words) over age in each language. Limit to WS data for children 16-30 months old (hint: `left_join` and `facet_wrap` are likely to be helpful).
 
-2. For English WS data, compute and plot the proportion of children that produce each word in the "toys" category at each age. Now do the same thing but separately for girls and boys.
+2. For English WS data, compute and plot the proportion of children that produce each word in the "toys" category at each age.
+
+- Bonus: Do the same thing as in 2 but separately for girls and boys.
 
 ## wordbankr {.build}
 
@@ -448,9 +450,11 @@ ggplot(brown_stats, aes(x = target_child_age, y = mlu_w, colour = target_child_n
 
 __Exercises__
 
-1. For each corpus, plot the number of transcripts in it against its mean length in number of tokens spoken by everyone other than the target child.
+1. For each corpus, compute the number of transcripts in it. Make a histogram of these counts.
 
-2. Retrieve and plot the number of times each child in the Brown corpus said each inflection of the verb "go" over age.
+2. For each corpus, compute the mean length of its transcripts in number of tokens spoken by everyone other than the target child. Plot these means againt the number of transcripts from 1.
+
+3. Retrieve and plot the number of times each child in the Brown corpus said each inflection of the verb "go" over age.
 
 ## childesr {.build}
 
@@ -463,6 +467,16 @@ corpus_transcripts <- transcripts %>%
   summarise(num_transcripts = n())
 ```
 
+```{r, fig.height=3, fig.width=4}
+ggplot(corpus_transcripts, aes(x = num_transcripts)) +
+  geom_histogram() +
+  labs(x = "Number of transcripts in corpus", y = "Count of corpora")
+```
+
+## childesr {.build}
+
+Transcript stats
+
 ```{r}
 speaker_stats <- get_speaker_statistics(role_exclude = "target_child")
 corpus_tokens <- speaker_stats %>%
@@ -471,18 +485,10 @@ corpus_tokens <- speaker_stats %>%
   left_join(corpus_transcripts)
 ```
 
-```{r, eval=FALSE}
+```{r, fig.height=3, fig.width=4}
 ggplot(corpus_tokens, aes(x = num_transcripts, y = mean_tokens)) +
-  geom_point()
-```
-
-## childesr
-
-Transcript stats
-
-```{r, echo=FALSE}
-ggplot(corpus_tokens, aes(x = num_transcripts, y = mean_tokens)) +
-  geom_point()
+  geom_point() +
+  labs(x = "Number of transcripts in corpus", y = "Mean transcript length")
 ```
 
 ## childesr {.build}
@@ -491,12 +497,13 @@ Brown "go" frequencies
 
 ```{r}
 go_tokens <- get_tokens(corpus = "Brown", role = "target_child",
-                        stem = "go", token = "*")
+                        stem = "go", token = "*", replace = FALSE)
 ```
 
 ```{r}
 go_summary <- go_tokens %>%
-  mutate(age = cut(target_child_age, 20)) %>%
+  group_by(target_child_name) %>%
+  mutate(age = floor(target_child_age)) %>%
   group_by(target_child_name, age, gloss) %>%
   summarise(num_tokens = n())
 ```
@@ -504,21 +511,23 @@ go_summary <- go_tokens %>%
 ```{r, eval=FALSE}
 ggplot(go_summary, aes(x = age, y = num_tokens, colour = gloss)) +
   facet_wrap(~target_child_name, scales = "free") +
-  geom_line(aes(group = gloss)) +
-  scale_colour_ptol()
+  geom_line() +
+  scale_colour_ptol(name = "") +
+  labs(x = "Age (months)", y = "Number of tokens spoken by child") +
+  theme(legend.position = "top")
 ```
 
 ## childesr
 
 Brown "go" frequencies
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.height=4, fig.width=8}
 ggplot(go_summary, aes(x = age, y = num_tokens, colour = gloss)) +
   facet_wrap(~target_child_name, scales = "free") +
-  geom_line(aes(group = gloss)) +
+  geom_line() +
   scale_colour_ptol(name = "") +
-  theme(axis.text.x = element_text(angle = 30, hjust = 1),
-        legend.position = "top")
+  labs(x = "Age (months)", y = "Number of tokens spoken by child") +
+  theme(legend.position = "top")
 ```
 
 
@@ -559,4 +568,4 @@ __This presentation__<br>
 – [github.com/mikabr/acq-tools](https://github.com/mikabr/acq-tools)<br>
 – [mikabr.github.io/acq-tools](https://mikabr.github.io/acq-tools)
 
-__Contact__: [mikabr@mit.edu](mailto:mikabr@mit.edu)
+__Contact__: [mikabr@mit.edu](mailto:mikabr@mit.edu), [mcfrank@stanford.edu](mailto:mcfrank@stanford.edu)
