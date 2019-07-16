@@ -19,8 +19,12 @@ slides > slide > hgroup + article {
   font-size: 80%;
 }
 
-.moresmall {
-  font-size: 60%;
+#mini-project p {
+  font-size: 75% ;
+}
+
+#mini-project li {
+  font-size: 90% ;
 }
 
 /*

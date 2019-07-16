@@ -243,10 +243,9 @@ ls("package:childesr")
 
 -------------------------------------------------------------------------------
 
-## Mini-projects!
+## Mini-project!
 
-
-Use data from Wordbank and/or childes-db to explore some question about language learning. Here's a few ideas:
+Use data from Wordbank/childes-db to explore a question about language learning. Some ideas:
 
 __Wordbank__
 
