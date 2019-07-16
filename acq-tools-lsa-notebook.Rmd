@@ -104,17 +104,20 @@ ls("package:wordbankr")
 
 ### Exercises
 
-1. Compute and plot median productive vocabulary size (as proportion of total words) over age in each language. Limit to WS data for children 16-30 months old.
+1. Compute and plot median productive vocabulary size (as proportion of total words) over age in each language. Limit to WS data for children 16-30 months old (hint: `left_join` and `facet_wrap` are likely to be helpful).
 
 ```{r}
 # *
 ```
 
-2. For English WS data, compute and plot the proportion of children that produce each word in the "toys" category at each age. Now do the same thing but separately for girls and boys.
+2. For English WS data, compute and plot the proportion of children that produce each word in the "toys" category at each age.
 
 ```{r}
 # *
 ```
+
+- Bonus: Do the same thing as in 2 but separately for girls and boys.
+
 
 ### AoA
 ```{r}
@@ -219,13 +222,19 @@ ls("package:childesr")
 
 ### Exercises
 
-1. For each corpus, plot the number of transcripts in it against its mean length in number of tokens spoken by everyone other than the target child.
+1. For each corpus, compute the number of transcripts in it. Make a histogram of these counts.
 
 ```{r}
 # *
 ```
 
-2. Retrieve and plot the number of times each child in the Brown corpus said each inflection of the verb "go" over age.
+2. For each corpus, compute the mean length of its transcripts in number of tokens spoken by everyone other than the target child. Plot these means againt the number of transcripts from 1.
+
+```{r}
+# *
+```
+
+3. Retrieve and plot the number of times each child in the Brown corpus said each inflection of the verb "go" over age.
 
 ```{r}
 # *
@@ -252,7 +261,7 @@ __childes-db__
 __Both__
 
 - For some set of words, estimate their age of acquisition from Wordbank and frequency in child-directed speech from childes-db and examine the relationship between them.
-- Determine which words are earliest-learned according to CDI data and according to corpus data and compare the two.
+- Determine which words are earliest-learned according to CDI data and according to CHILDES data and compare the two.
 
 
 -------------------------------------------------------------------------------
@@ -279,4 +288,4 @@ __This workshop__
 - https://github.com/mikabr/acq-tools
 - https://mikabr.github.io/acq-tools
 
-__Contact__: mikabr@mit.edu
+__Contact__: mikabr@mit.edu, mcfrank@stanford.edu
