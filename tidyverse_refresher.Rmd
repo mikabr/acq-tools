@@ -1,0 +1,163 @@
+---
+title: "A quick tidyverse intro"
+author: "Mike Frank"
+date: "7/11/2019"
+output: html_document
+---
+
+Starting note: The best reference for this material is Hadley Wickham's [R for data scientists](http://r4ds.had.co.nz/). My contribution here is to translate this reference for psychology.
+
+```{r setup}
+library(tidyverse)
+```
+
+<!-- ----------------------------------------------------------------------- -->
+# Goals and Introduction
+
+By the end of this tutorial, you will know:
+
++ What "tidy data" is and why it's an awesome format
++ How to do some stuff with tidy data
++ A little plotting using `ggplot2`.
+
+This intro will describe a few concepts that you will need to know, using the `mtcars` dataset.
+
+## Data frames
+
+The basic data structure we're working with is the data frame, or `tibble` (in the `tidyverse` reimplementation). 
+Data frames have rows and columns, and each column has a distinct data type. The implementation in Python's `pandas` is distinct but most of the concepts are the same. 
+
+```{r}
+head(mtcars)
+```
+
+## Tidy data
+
+> “Tidy datasets are all alike, but every messy dataset is messy in its own way.” –– Hadley Wickham
+
+Here's the basic idea: In tidy data, every row is a single **observation** (trial), and every column describes a **variable** with some **value** describing that trial. 
+
+And if you know that data are formatted this way, then you can do amazing things, basically because you can take a uniform approach to the dataset. From R4DS:
+
+"There’s a general advantage to picking one consistent way of storing data. If you have a consistent data structure, it’s easier to learn the tools that work with it because they have an underlying uniformity. There’s a specific advantage to placing variables in columns because it allows R’s vectorised nature to shine."
+
+`mtcars` is a tidy dataset. Each row is an observation of an individual car, each column is a different variable. 
+
+## Functions and Pipes
+
+Everything you typically want to do in statistical programming uses **functions**. `mean` is a good example. `mean` takes one **argument**, a numeric vector. 
+
+```{r}
+mean(mtcars$mpg)
+```
+
+We're going to call this **applying** the function `mean` to the variable `mpg`.
+
+Pipes are a way to write strings of functions more easily. They bring the first argument of the function to the beginning. So you can write:
+
+```{r}
+mtcars$mpg %>% mean()
+```
+
+Next, we are going to manipulate the `mtcars` data using "verbs" from `dplyr`. I'll only teach four verbs, the most common in my workflow (but there are many other useful ones):
+
++ `filter` - remove rows by some logical condition
++ `mutate` - create new columns 
++ `summarize` - apply some function over columns 
++ `group_by` - group the data into subsets by some column
+
+
+
+## Filtering & Mutating
+
+There are lots of reasons you might want to remove *rows* from your dataset, including getting rid of outliers, selecting subpopulations, etc. `filter` is a verb (function) that takes a data frame as its first argument, and then as its second takes the **condition** you want to filter on. 
+
+So if you wanted to look only at four-cylinder cars, you could do this.
+
+```{r}
+mtcars %>%
+  filter(cyl == 4)
+```
+
+
+We're using pipes with functions over data frames here. The way this works is that:
+
++ `dplyr` verbs always take the data frame as their first argument, and
++ because pipes pull out the first argument, the data frame just gets passed through successive operations
++ so you can read a pipe chain as "take this data frame and first do this, then do this, then do that."
+
+This is essentially the huge insight of `dplyr`: you can chain verbs into readable and efficient sequences of operations over dataframes, provided 1) the verbs all have the same syntax (which they do) and 2) the data all have the same structure (which they do if they are tidy). 
+
+There are also times when you want to add or remove *columns*. You might want to remove columns to simplify the dataset. There's not much to simplify here, but if you wanted to do that, the verb is `select`. 
+
+```{r}
+mtcars %>%
+  select(mpg, cyl)
+```
+
+Perhaps more useful is *adding columns*. You might do this perhaps to compute some kind of derived variable. `mutate` is the verb for these situations - it allows you to add a column. Let's add a gallons per mile (`gpm`) variable (see [https://www.popularmechanics.com/cars/a12367/4324986/]()). 
+
+```{r}
+mtcars <- mtcars %>%
+  mutate(gpm = 1/mpg)
+```
+
+
+## Grouping and summarising
+
+We typically describe datasets at the level of some grouping variable (e.g., subjects). We need two verbs to get a summary at a group level: `group_by` and `summarise` (kiwi spelling). Grouping alone doesn't do much.
+
+```{r}
+mtcars %>%
+  group_by(cyl)  
+```
+
+All it does is add a grouping marker. 
+
+What `summarise` does is to *apply a function* to a part of the dataset to create a new summary dataset. So we can apply the function `mean` to the dataset and get the grand mean. 
+
+```{r}
+## DO NOT DO THIS!!!
+# foo <- initialize_the_thing_being_bound()
+# for (i in 1:length(unique(mtcars$cyl))) {
+#     this_data <- mtcars[mtcars$cyl == unique(mtcars$cyl)[i],]
+#     do_a_thing(this_data)
+#     bind_together_somehow(this_data)
+# }
+
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(mpg = mean(mpg))
+```
+Note the syntax here: `summarise` takes multiple  `new_column_name = function_to_be_applied_to_data(data_column)` entries in a list. Using this syntax, we can create more elaborate summary datasets also:
+
+```{r}
+mtcars %>%
+  summarise(min = min(mpg),
+            max = max(mpg), 
+            mean = mean(mpg))
+```
+
+Where these two verbs shine is in combination, though. Because `summarise` applies functions to columns in your *grouped data*, not just to the whole dataset!
+
+So we can group by age or condition or whatever else we want and then carry out the same procedure, and all of a sudden we are doing something extremely useful!
+
+```{r}
+mtcars_means <- mtcars %>%
+  group_by(cyl) %>%
+  summarise(min = min(mpg),
+            max = max(mpg), 
+            mean = mean(mpg), 
+            sd = sd(mpg))
+
+mtcars_means
+```
+
+These summary data are typically very useful for plotting. .
+
+```{r}
+ggplot(mtcars_means, 
+       aes(x = cyl, y = mean)) + 
+  geom_pointrange(aes(ymin = mean - sd, ymax = mean + sd)) 
+```
+
