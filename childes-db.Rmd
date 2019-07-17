@@ -1,0 +1,37 @@
+---
+title: "childes-db"
+output:
+  ioslides_presentation:
+    css: styles.css
+    incremental: true
+---
+
+
+## CHILDES
+
+- Collection of child language transcripts (MacWhinney 1985), ~8,000 citations
+
+- Fantastic resource! Some issues:
+
+  - CLAN and other tools: specialized, limited
+  - Lots of time on data prep/processing
+  - Duplication of effort
+  - Error-prone
+  - Hidden decisions
+  - Not reproducible
+
+## childes-db
+
+Make working with CHILDES:
+
+- easier and more accessible
+- more reproducible
+
+
+## childes-db interface exploration
+
+1. Pick a set of words of interest, for example color terms. Using the Frequency app, explore how frequent they are in children's _input_ and how their input frequency changes over development. Compare to the trajectories of the same words in children's _productions_.
+
+2. Use the Derived Measured app to explore the growth curves of measures of lexical diversity. How do the measures compare to each other? How are the growth curves affected by changing the bin size? What about them is different or shared among different corpora?
+
+3. Use the Population Viewer app to explore the relative strengths and weaknesses of different languages' corpora. What sorts of analyses might the data be best suited for? What are some gaps the data?
